@@ -1,21 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-        public Transform focus;
-        public float smoothTime = 2;
+    public static CameraController Instance;
+    public Transform focus;
+    public float smoothTime = 2;
 
-        Vector3 offset;
+    [NonSerialized] public Vector3 offset;
 
-        void Awake()
-        {
-            offset = focus.position - transform.position;
-        }
+    private void Awake()
+    {
+        Instance = this;
+        offset = focus.position - transform.position;
+    }
 
-        void Update()
-        {
-            transform.position = Vector3.Lerp(transform.position, focus.position - offset, Time.deltaTime * smoothTime);
-        }
+    private void LateUpdate()
+    {
+        transform.position = Vector3.Lerp(transform.position, focus.position - offset, Time.deltaTime * smoothTime);
+        //To whomever wrote this:
+        //Please kindly refer to https://chicounity3d.wordpress.com/2014/05/23/how-to-lerp-like-a-pro/
+        //:)
+    }
 }
